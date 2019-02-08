@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="result_textView_textSize">30sp</dimen>
+    <dimen name="result_percentage_textView">32dp</dimen>
+    <dimen name="result_textView">-72dp</dimen>
+    <dimen name="result_frameLayout_padding">32dp</dimen>
+    <dimen name="fragment_next_textSize">32sp</dimen>
+    <dimen name="fragment_next_layout_marginTop">30dp</dimen>
+    <dimen name="fragment_blank_button_textSize">16sp</dimen>
+    <dimen name="fragment_blank_button_layout_marginTop">350dp</dimen>
+    <dimen name="fragment_blank_button_layout_width">194dp</dimen>
+    <dimen name="fragment_blank_spinner_layout_marginTop">150dp</dimen>
+    <dimen name="fragment_blank_spinner_layout_height">48dp</dimen>
+</resources>

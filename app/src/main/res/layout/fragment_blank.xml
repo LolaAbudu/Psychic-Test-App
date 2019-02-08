@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fragment_frameLayout_background"
+    android:orientation="vertical"
+    tools:context=".fragments.MainFragment">
+
+    <Spinner
+        android:id="@+id/main_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/fragment_blank_spinner_layout_height"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/fragment_blank_spinner_layout_marginTop"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="@dimen/fragment_blank_button_layout_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/fragment_blank_button_layout_marginTop"
+        android:text="@string/submit_button"
+        android:textSize="@dimen/fragment_blank_button_textSize" />
+
+</FrameLayout>
