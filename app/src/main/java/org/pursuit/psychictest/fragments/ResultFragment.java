@@ -10,26 +10,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.pursuit.psychictest.R;
 import org.pursuit.psychictest.database.ResultDatabaseHelper;
 import org.pursuit.psychictest.model.Result;
 
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 public class ResultFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "user choice";
-    private static final String ARG_PARAM2 = "computer choice";
+    private static final String KEY_USER_CHOICE = "user choice";
+    private static final String KEY_CPU_CHOICE = "computer choice";
 
     private ResultDatabaseHelper resultDatabaseHelper;
 
     private TextView percentageCorrectTextView;
     private TextView resultTextView;
 
-    private int mParam1;
-    private int mParam2;
+    private int userChoice;
+    private int cpuChoice;
 
 
     public ResultFragment() {
@@ -39,8 +39,8 @@ public class ResultFragment extends Fragment {
     public static ResultFragment newInstance(int userChoice, int computerRandomChoice) {
         ResultFragment fragment = new ResultFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, userChoice);
-        args.putInt(ARG_PARAM2, computerRandomChoice);
+        args.putInt(KEY_USER_CHOICE, userChoice);
+        args.putInt(KEY_CPU_CHOICE, computerRandomChoice);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,29 +48,27 @@ public class ResultFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //component-related initializations should be done in onCreate
+        resultDatabaseHelper = ResultDatabaseHelper.getSingleInstance(Objects.requireNonNull(getContext()).getApplicationContext());
+
+        if (getArguments() != null && getArguments().containsKey(KEY_USER_CHOICE) && getArguments().containsKey(KEY_CPU_CHOICE)) {
+            userChoice = getArguments().getInt(KEY_USER_CHOICE);
+            cpuChoice = getArguments().getInt(KEY_CPU_CHOICE);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View rootview = inflater.inflate(R.layout.fragment_result, container, false);
-        resultTextView = rootview.findViewById(R.id.result_textView);
-        percentageCorrectTextView = rootview.findViewById(R.id.percentage_correct_textView);
-        resultDatabaseHelper = ResultDatabaseHelper.getSingleInstance(getContext().getApplicationContext());
-
-        if (getArguments() != null && getArguments().containsKey(ARG_PARAM1) && getArguments().containsKey(ARG_PARAM2)) {
-            mParam1 = getArguments().getInt(ARG_PARAM1);
-            mParam2 = getArguments().getInt(ARG_PARAM2);
-//            resultDatabaseHelper.deleteAllResults();
-//            resultDatabaseHelper.close();
-        }
-        return rootview;
+        return inflater.inflate(R.layout.fragment_result, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        resultTextView = view.findViewById(R.id.result_textView);
+        percentageCorrectTextView = view.findViewById(R.id.percentage_correct_textView);
 
         Result result = new Result();
 
@@ -79,7 +77,7 @@ public class ResultFragment extends Fragment {
 
         boolean isTrue;
 
-        if (mParam1 == mParam2) {
+        if (userChoice == cpuChoice) {
             isTrue = true;
             resultTextView.setText(correctChoice);
             result.setIsCorrect(true);
@@ -90,18 +88,17 @@ public class ResultFragment extends Fragment {
         }
 
         resultDatabaseHelper.addResult(result);
-        String percentCorrect = String.valueOf(percentageResult()) + "% of Choices Correct";
+        String percentCorrect = String.valueOf(getPercentageResults()) + "% of Choices Correct";
         int correctChoices = resultDatabaseHelper.getTrueResults();
         int totalChoices = resultDatabaseHelper.getTotalChoicesMade();
         percentageCorrectTextView.setText(percentCorrect);
 
-        Log.d("database", "Your Choice: " + mParam1 + ", Computer Choice: " + mParam2 +
+        Log.d("database", "Your Choice: " + userChoice + ", Computer Choice: " + cpuChoice +
                 ", isCorrect?: " + isTrue + ", totalChances: " + totalChoices + " totalTrue: " + correctChoices + ", percentCorrect: " + percentCorrect);
 
-        //Toast.makeText(getContext(), resultTextView.getText(), Toast.LENGTH_SHORT).show();
     }
 
-    public String percentageResult() {
+    public String getPercentageResults() {
         int totalChoices = resultDatabaseHelper.getTotalChoicesMade();
         int correctChoices = resultDatabaseHelper.getTrueResults();
 
