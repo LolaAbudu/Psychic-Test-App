@@ -68,5 +68,8 @@ public class ResultDatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteAllResults() {
         getWritableDatabase().execSQL("DELETE FROM " + TABLE_NAME + ";");
+
+        //or below
+        //getReadableDatabase().execSQL("DELETE FROM " + TABLE_NAME + ";");
     }
 }
