@@ -24,18 +24,19 @@ public class MainActivity extends AppCompatActivity implements FragmentInterface
         fragmentTransaction.commit();
     }
 
+    //be specific with parameter names
     @Override
-    public void showNextFragment(String text) {
+    public void showNextFragment(String theme) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, NextFragment.newInstance(text))
+                .replace(R.id.main_container, NextFragment.newInstance(theme))
                 .addToBackStack(null)
                 .commit();
     }
 
     @Override
-    public void showResultFragment(int param1, int param2) {
+    public void showResultFragment(int userChoice, int cpuChoice) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, ResultFragment.newInstance(param1, param2))
+                .replace(R.id.main_container, ResultFragment.newInstance(userChoice, cpuChoice))
                 .addToBackStack(null)
                 .commit();
     }
